@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+
+  <head>
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+  </head>
+
+  <!-- STEP 1 -->
+  <!-- ng-app declares your <body> as an Angular app and calls the module declared below -->
+  <body ng-app="app">
+    <!-- STATIC HTML FOR REFERENCE
+    <div class="container">
+      <h1>Recent Posts</h1>
+        <ul class="list-group">
+          <li class="list-group-item">
+            <strong>@dickeyxxx</strong>
+            <span>Node Rules!</span>
+          </li>
+          <li class="list-group-item">
+            <strong>@jeffdickey</strong>
+            <span>Trying out Angular.js...</span>
+          </li>
+        </ul>
+    </div> -->
+
+    <!-- STEP 4 -->
+    <!-- ng-controller links this specific div to the controller called "PostsCtrl" -->
+    <div ng-controller="PostsCtrl" class="container">
+
+      <h1>Recent Posts</h1>
+      <form role= "form"> <!-- STEP 11 bootstrap code -->
+        <div class="form-group"> <!-- STEP 11 bootstrap code -->
+          <div class="input-group"> <!-- STEP 11 bootstrap code -->
+
+            <!-- STEP 8 add the input field -->
+            <!-- ng-model hooks an input field to a $scope property, in this case <input> will show the content of $scope.postBody -->
+            <input ng-model="postBody" class="form-control" />
+            <span class="input-group-btn"> <!-- STEP 11 bootstrap code -->
+
+              <!-- STEP 6 add the button -->
+              <!-- ng-click calls a function on $scope, in this case the function called addPost() -->
+              <button ng-click="addPost()" class="btn btn-default">Add Post</button>
+            </span> <!-- STEP 11 bootstrap code -->
+          </div> <!-- STEP 11 bootstrap code -->
+        </div> <!-- STEP 11 bootstrap code -->
+      </form> <!-- STEP 11 bootstrap code -->
+
+      <!-- STEP 5 create the ul -->
+      <!-- ng-repeat loops through all post in $scope.posts and display the content in the view -->
+      <ul class="list-group">
+        <li ng-repeat="post in posts" class="list-group-item">
+          <strong>@{{ post.username }}</strong>
+          <span>{{ post.body }}</span>
+        </li>
+      </ul>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.18/angular.js"></script>
+    <script>
+      // STEP 2
+      // creates a module called "app" matching the ng-app declaration on the <body>
+      var app = angular.module("app", []);
+
+      // STEP 3 create a controller and put some data in $scope.posts
+      // app.controller() creates a module called "PostsCtrl" which controls the "app" module
+      // dependency inject $scope
+      app.controller("PostsCtrl", function ($scope){
+        // starting data
+        $scope.posts = [
+          {
+            username: "giuliaxxx",
+            body: "Node Rules!"
+          },
+          {
+            username: "giuliagazza",
+            body: "trying out angular.js..."
+          }
+        ],
+        // STEP 7 add the function addPost() to $scope so ng-click can use it
+        $scope.addPost = function () {
+          // STEP 10 wrap the addPost() logic in an if statement to prevent empty posts
+          if ($scope.postBody) {
+            // unshift: pushes the new element to the beginning of the array
+            $scope.posts.unshift({
+              username: "giuliaxxx",
+              body: $scope.postBody // use the text entered in the input field by the user
+            })
+            // STEP 9
+            // clear the input field after the post is added to the list
+            $scope.postBody = null
+          }
+        }
+      })
+    </script>
+  </body>
+</html>
